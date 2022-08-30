@@ -1,22 +1,27 @@
-class Trie {
-    
-    static class TrieNode {
-        HashMap<Character, TrieNode> children;
-        boolean isEndOfWord;
-        TrieNode() {
-            isEndOfWord = false;
-            children = new HashMap<>();
-        }
-    }
-    
-    TrieNode root;
+package com.amazon;
 
-    public Trie() {
-        root = new TrieNode();
-    }
-    
-    public void insert(String word) {
-        TrieNode runner = root;
+import java.util.HashMap;
+
+public class Trie {
+
+	static class TrieNode {
+		HashMap<Character, TrieNode> children;
+		boolean isEndOfWord;
+
+		TrieNode() {
+			isEndOfWord = false;
+			children = new HashMap<>();
+		}
+	}
+
+	TrieNode root;
+
+	public Trie() {
+		root = new TrieNode();
+	}
+
+	public void insert(String word) {
+		TrieNode runner = root;
 		for (int level = 0; level < word.length(); level++) {
 			Character current = word.charAt(level);
 			if (!runner.children.containsKey(current)) {
@@ -25,10 +30,10 @@ class Trie {
 			runner = runner.children.get(current);
 		}
 		runner.isEndOfWord = true;
-    }
-    
-    public boolean search(String word) {
-        TrieNode runner = root;
+	}
+
+	public boolean search(String word) {
+		TrieNode runner = root;
 		for (int level = 0; level < word.length(); level++) {
 			if (!runner.children.containsKey(word.charAt(level))) {
 				return false;
@@ -36,10 +41,10 @@ class Trie {
 			runner = runner.children.get(word.charAt(level));
 		}
 		return runner.isEndOfWord;
-    }
-    
-    public boolean startsWith(String prefix) {
-        TrieNode runner = root;
+	}
+
+	public boolean startsWith(String prefix) {
+		TrieNode runner = root;
 		for (int level = 0; level < prefix.length(); level++) {
 			if (!runner.children.containsKey(prefix.charAt(level))) {
 				return false;
@@ -47,13 +52,17 @@ class Trie {
 			runner = runner.children.get(prefix.charAt(level));
 		}
 		return true;
-    }
-}
+	}
 
-/**
- * Your Trie object will be instantiated and called as such:
- * Trie obj = new Trie();
- * obj.insert(word);
- * boolean param_2 = obj.search(word);
- * boolean param_3 = obj.startsWith(prefix);
- */
+	public static void main(String[] args) {
+		Trie trie = new Trie();
+		trie.insert("apple");
+		boolean search = trie.search("apple"); // return True
+		System.out.println(search);
+		trie.search("app"); // return False
+		trie.startsWith("app"); // return True
+		trie.insert("app");
+		trie.search("app"); // return True
+	}
+
+}
